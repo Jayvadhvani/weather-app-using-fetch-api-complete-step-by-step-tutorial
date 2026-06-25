@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="en"><head>
+  
+  
+  <meta charset="UTF-8">
+  <title>Weather App using Fetch API - Complete Step-by-Step Tutorial</title>
+  <style>
+    body { background: linear-gradient(135deg, #1e3a8a, #3b82f6); font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    .weather-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      color: white;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+    }
+    .search { display: flex; gap: 10px; margin-bottom: 30px; }
+    .search input { flex: 1; padding: 10px; border-radius: 8px; border: none; outline: none; }
+    .search button { background: #10b981; color: white; border: none; border-radius: 8px; padding: 10px 15px; cursor: pointer; }
+    .city { font-size: 28px; font-weight: bold; margin: 0; }
+    .temp { font-size: 64px; font-weight: 900; margin: 10px 0; }
+    .desc { font-size: 18px; opacity: 0.8; text-transform: capitalize; }
+    .icon { font-size: 64px; margin: 10px 0; line-height: 1; }
+  </style>
+
+            <meta name="description" content="A beautiful component imported via Developer Studio AI.">
+            <meta name="robots" content="index, follow">
+            <meta property="og:title" content="Weather App using Fetch API - Complete Step-by-Step Tutorial">
+            <meta property="og:description" content="A beautiful component imported via Developer Studio AI.">
+            <meta property="og:image" content="https://codescompiler.com/images/posts/javascript-weather-api.png">
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="Weather App using Fetch API - Complete Step-by-Step Tutorial">
+            <meta name="twitter:description" content="A beautiful component imported via Developer Studio AI.">
+            <meta name="twitter:image" content="https://codescompiler.com/images/posts/javascript-weather-api.png">
+          </head>
+<body>
+
+<!-- ── CODESCOMPILER DEMO HEADER ── -->
+<style>
+  #cc-demo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 48px;
+    background: #1a1b26;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: white;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999;
+  }
+  #cc-demo-header a { text-decoration: none; color: white; }
+  .cc-logo { font-size: 14px; font-weight: 900; }
+  .cc-logo span { color: #04aa6d; }
+  .cc-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); margin: 0 12px; }
+  .cc-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cc-actions { display: flex; gap: 8px; }
+  .cc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: rgba(255,255,255,0.7);
+  }
+  .cc-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+  .cc-btn svg { width: 14px; height: 14px; }
+  @media (max-width: 600px) {
+    .cc-title { display: none; }
+    .cc-btn span { display: none; }
+  }
+</style>
+<header id="cc-demo-header">
+  <div style="display: flex; align-items: center; overflow: hidden;">
+    <a href="https://codescompiler.com" class="cc-logo" target="_blank" rel="dofollow"><span>Codes</span>Compiler</a>
+    <div class="cc-sep"></div>
+    <h1 class="cc-title" title="Weather App using Fetch API - Complete Step-by-Step Tutorial" style="margin: 0; font-size: 13px; font-weight: 600;">📺 Weather App using Fetch API - Complete Step-by-Step Tutorial</h1>
+  </div>
+  <div class="cc-actions">
+    <a href="https://codescompiler.com/blog/javascript-weather-api" class="cc-btn" target="_blank" rel="dofollow" title="Read the full post">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+      <span>Back to Post</span>
+    </a>
+    <a href="index.html" class="cc-btn" target="_blank" download="javascript-weather-api.html" title="Download source file">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+      <span>Download</span>
+    </a>
+    <button onclick="document.getElementById('cc-demo-header').style.display='none'" class="cc-btn" title="Hide header for fullscreen view">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l5-5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+      <span>Fullscreen</span>
+    </button>
+  </div>
+</header>
+<!-- ================================== -->
+
+  <div class="weather-card">
+    <div class="search">
+      <input type="text" id="cityInput" placeholder="Enter city" value="London">
+      <button id="searchBtn">Search</button>
+    </div>
+    <h2 class="city" id="cityName">London</h2>
+    <div class="icon" id="wIcon">🌥️</div>
+    <div class="temp"><span id="tempVal">18</span>°C</div>
+    <div class="desc" id="descTxt">Partly cloudy</div>
+  </div>
+  <script>
+    async function getWeather(city) {
+      const btn = document.getElementById('searchBtn');
+      btn.innerText = '...';
+      try {
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`);
+        const geoData = await geoRes.json();
+        
+        if (!geoData.results || geoData.results.length === 0) throw new Error('Not found');
+        
+        const { latitude, longitude, name } = geoData.results[0];
+        
+        const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+        const wData = await wRes.json();
+        const w = wData.current_weather;
+        
+        document.getElementById('cityName').innerText = name;
+        document.getElementById('tempVal').innerText = Math.round(w.temperature);
+        
+        let icon = '☀️', desc = 'Clear';
+        if (w.weathercode >= 1 && w.weathercode <= 3) { icon = '🌥️'; desc = 'Cloudy'; }
+        if (w.weathercode >= 45 && w.weathercode <= 48) { icon = '🌫️'; desc = 'Foggy'; }
+        if (w.weathercode >= 51 && w.weathercode <= 67) { icon = '🌧️'; desc = 'Rain'; }
+        if (w.weathercode >= 71 && w.weathercode <= 77) { icon = '❄️'; desc = 'Snow'; }
+        if (w.weathercode >= 95) { icon = '⛈️'; desc = 'Thunderstorm'; }
+        
+        document.getElementById('descTxt').innerText = desc;
+        document.getElementById('wIcon').innerText = icon;
+      } catch (e) {
+        document.getElementById('cityName').innerText = "Not found";
+        document.getElementById('tempVal').innerText = "--";
+        document.getElementById('descTxt').innerText = "Try another city";
+        document.getElementById('wIcon').innerText = "❌";
+      }
+      btn.innerText = 'Search';
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const city = document.getElementById('cityInput').value.trim();
+      if(city) getWeather(city);
+    });
+
+    // Handle enter key
+    document.getElementById('cityInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const city = e.target.value.trim();
+        if(city) getWeather(city);
+      }
+    });
+
+    // Initial weather load
+    getWeather('London');
+  </script>
+
+
+</body></html>
